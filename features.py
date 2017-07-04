@@ -60,14 +60,17 @@ def extractFeatures(inputFile = "input.log", outputFile = "features.log"):
         f.write("\n".join(features))
         f.close()
 
-def mergeFeatures(derivedFeatureLists, featuresFile = "features.log", outputFile = "featuresDerived.log"):
+def mergeFeatures(derivedFeatureLists, featuresFile = "features.log", outputFile = "featuresDerived.log", appendLineNumber = True):
     lines = np.genfromtxt(featuresFile, delimiter=",")
     features = []
     for lineIndex, lineFeatures in enumerate(lines):
         newFeatures = []
         for featureIndex, derivedFeatureList in enumerate(derivedFeatureLists):
             newFeatures.append(derivedFeatureLists[featureIndex][lineIndex])
-        features.append([lineIndex + 1] + lineFeatures.tolist() + newFeatures)
+        if appendLineNumber:
+            features.append([lineIndex + 1] + newFeatures + lineFeatures.tolist())
+        else:
+            features.append(newFeatures + lineFeatures.tolist())
     f = open(outputFile, "w")
     featureEntries = []
     for line in np.array(features).tolist():

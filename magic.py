@@ -3,8 +3,8 @@ import features
 import cluster
 
 features.extractFeatures()
-
-derivedFeatureLists = features.deriveFeatures(cluster.cluster(10), offsetLimit = 30) + features.deriveFeatures(cluster.cluster(100), offsetLimit = 30) + features.deriveFeatures(cluster.cluster(1000), offsetLimit = 30)
+offsetValue = 30
+derivedFeatureLists = features.deriveFeatures(cluster.cluster(10), offsetLimit = offsetValue) + features.deriveFeatures(cluster.cluster(100), offsetLimit = offsetValue) + features.deriveFeatures(cluster.cluster(1000), offsetLimit = offsetValue)
 
 features.mergeFeatures(derivedFeatureLists)
 
@@ -12,4 +12,4 @@ k = 100
 
 result = cluster.cluster(k, featuresFile = "featuresDerived.log")
 
-print(list(result))
+features.mergeFeatures([result], featuresFile = "featuresDerived.log", outputFile = "result.log", appendLineNumber = False)
