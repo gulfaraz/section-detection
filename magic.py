@@ -6,6 +6,8 @@ import itertools
 
 INPUT_FILE = "input.log"
 FEATURES_FILE = "features.csv"
+RESULT_FILE = "clusterResult.csv"
+EXTRACTED_SECTIONS_FILE = "detectedSections.log"
 LABEL_COLUMN_NAME = "label"
 LINE_NUMBER_COLUMN_NAME = "line_number"
 
@@ -49,7 +51,7 @@ for k, l in itertools.groupby(resultSet.iterrows(), key=lambda x: x[1]["pattern_
         if consecutiveLines[0][1] > 0:
             interestingIndexes.append(consecutiveLines[0])
 
-resultSet.to_csv("clusterResult.csv", sep=",", encoding="utf-8", index=True, index_label="index")
+resultSet.to_csv(RESULT_FILE, sep=",", encoding="utf-8", index=True, index_label="index")
 
 def findSegmentTerminals(lineNumber, lineType):
     startIndex = lineNumber
@@ -67,7 +69,7 @@ def getLinesFromFile(lineRange):
             lineList.append(line)
     return "".join(lineList)
 
-f = open("detectedSections.log", "a")
+f = open(EXTRACTED_SECTIONS_FILE, "a")
 for i, j in interestingIndexes:
     lineRange = findSegmentTerminals(i, j)
     if j == 1:
