@@ -2,7 +2,7 @@ import numpy as np
 import pandas
 import tensorflow as tf
 
-def kMeans(iterations, labelledSet, columnPrefix="Cluster"):
+def kMeans(iterations, labelledSet, columnPrefix="cluster"):
     X = labelledSet.as_matrix()
 
     start_pos = tf.Variable(X[np.random.randint(X.shape[0], size=iterations),:], dtype=tf.float32)
@@ -44,7 +44,7 @@ def kMeans(iterations, labelledSet, columnPrefix="Cluster"):
 
     res = sess.run(point_to_centroid_assignment)
 
-    return pandas.DataFrame(res, columns=[columnPrefix + str(iterations)])
+    return pandas.DataFrame(res, columns=[columnPrefix + "_" + str(iterations)])
 
 def meanShift(n_updates=-1):
     X1 = tf.expand_dims(tf.transpose(input_X), 0)
